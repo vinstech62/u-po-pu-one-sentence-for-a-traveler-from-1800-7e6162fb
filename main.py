@@ -39,7 +39,19 @@ SENTENCE = (
 )
 
 
+def validate(sentence: str) -> None:
+    """Self-check the entry against the bounty gate before writing it."""
+    chars = len(sentence)
+    if not 1 <= chars <= 200:
+        raise SystemExit(f"sentence is {chars} characters, must be 1-200")
+    if not sentence.strip():
+        raise SystemExit("sentence must not be only whitespace")
+    if sentence.count(".") != 1 or not sentence.endswith("."):
+        raise SystemExit("entry must be exactly one sentence")
+
+
 def main() -> None:
+    validate(SENTENCE)
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(SENTENCE)
